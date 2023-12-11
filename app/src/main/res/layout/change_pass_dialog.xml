@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/gradient_background">
+    <EditText
+        android:id="@+id/etNewPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="30dp"
+        android:singleLine="true"
+        android:padding="17dp"
+        android:inputType="textPassword"
+        android:background="@drawable/rounded"
+        android:hint="Enter new password"/>
+    <EditText
+        android:id="@+id/etConfirmNewPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="30dp"
+        android:singleLine="true"
+        android:padding="17dp"
+        android:inputType="textPassword"
+        android:background="@drawable/rounded"
+        android:hint="Enter confirm new password"/>
+    <EditText
+        android:id="@+id/etNowPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:inputType="textPassword"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="30dp"
+        android:singleLine="true"
+        android:padding="17dp"
+        android:background="@drawable/rounded"
+        android:hint="Enter current password"/>
+    <Button
+    android:id="@+id/btnChangePass"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Change Password"
+    android:layout_marginTop="15dp"
+    android:textColor="@color/black"
+    android:background="@drawable/rounded"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:layout_gravity="center"/>
+</LinearLayout>

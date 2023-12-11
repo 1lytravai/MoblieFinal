@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MoblieFinal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="topic_fragment">Topic fragment</string>
+    <string name="folder_fragment">Folder fragment</string>
+    <string name="favorite_fragment">Favorite fragment</string>
+    <string name="storage_fragment">Storage fragment</string>
+    <string name="hello_blank_fragment">Hello Blank Fragment</string>
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/circle_background.xml -->
+<!-- res/drawable/circle_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Đặt màu nền của hình tròn -->
+    <solid android:color="@color/black" />
+
+    <!-- Đặt đường viền (nếu cần) -->
+    <stroke
+        android:width="2dp"
+        android:color="@android:color/white" />
+
+    <!-- Đặt kích thước của hình tròn -->
+    <size
+        android:width="40dp"
+        android:height="40dp" />
+
+    <!-- Đặt cách hình tròn tự động co giãn -->
+    <scale android:scaleType="fitXY" />
+</shape>

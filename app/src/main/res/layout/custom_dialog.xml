@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/gradient_background">
+    <Button
+        android:id="@+id/btnAddTopic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:text="Học phần"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="20dp"/>
+
+    <Button
+        android:id="@+id/btnAddFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded"
+        android:text="Thư mục"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="20dp"/>
+</LinearLayout>
