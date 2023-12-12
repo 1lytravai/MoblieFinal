@@ -1,6 +1,7 @@
 package com.example.mobliefinal
 
         data class Folder(
+            val folderId: String? = null,
             val createdAt: Long = 0,
             val description: String = "",
             val name: String = "",

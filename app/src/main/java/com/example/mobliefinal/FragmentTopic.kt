@@ -43,35 +43,35 @@ class FragmentTopic : Fragment() {
         databaseReference = FirebaseDatabase.getInstance().reference.child("topics")
 
         topicList = ArrayList()
-        topicAdapter = TopicAdapter(topicList)
+        topicAdapter = TopicAdapter(requireActivity(), topicList)
         recyclerView.adapter = topicAdapter
 
         sharedPreferences = requireActivity().getSharedPreferences(FragmentProfile.USER_PREFS, Context.MODE_PRIVATE)
         val username = sharedPreferences.getString(FragmentProfile.USERNAME_KEY, "")
         Log.d("Username", username ?: "Username is empty or null")
 
-            if (!username.isNullOrEmpty()) {
-                databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        topicList.clear()
-                        for (postSnapshot in snapshot.children) {
-                            val topic = postSnapshot.getValue(Topic::class.java)
-                            topic?.let {
-                                if (it.user == username) {
-                                    topicList.add(it)
-                                }
+        if (!username.isNullOrEmpty()) {
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    topicList.clear()
+                    for (postSnapshot in snapshot.children) {
+                        val topic = postSnapshot.getValue(Topic::class.java)
+                        topic?.let {
+                            if (it.user == username) {
+                                topicList.add(it)
                             }
                         }
-                        topicAdapter.notifyDataSetChanged()
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        // Handle error
-                    }
-                })
-            }
+                    topicAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Xử lý lỗi
+                }
+            })
         }
-
+    }
 
 
     override fun onDestroyView() {

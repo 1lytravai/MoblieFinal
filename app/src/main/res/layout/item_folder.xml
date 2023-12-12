@@ -25,10 +25,10 @@
             android:textStyle="bold"/>
 
         <ImageView
-            android:id="@+id/ivStar"
+            android:id="@+id/ivDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_star_24"/>
+            android:src="@drawable/baseline_delete_24"/>
     </LinearLayout>
 
     <LinearLayout

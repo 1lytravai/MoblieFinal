@@ -41,12 +41,12 @@ class FragmentFolder : Fragment() {
         recyclerView = binding.recyclerViewFolder // Sử dụng binding để truy cập các thành phần trong layout
         val layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerView.layoutManager = layoutManager
+        databaseReference = FirebaseDatabase.getInstance().reference.child("folders")
 
         folderList = ArrayList()
         folderAdapter = FolderAdapter(folderList)
         recyclerView.adapter = folderAdapter
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child("folders")
         sharedPreferences = requireActivity().getSharedPreferences(FragmentProfile.USER_PREFS, Context.MODE_PRIVATE)
         val username = sharedPreferences.getString(FragmentProfile.USERNAME_KEY, "")
         Log.d("Username", username ?: "Username is empty or null")
@@ -54,6 +54,7 @@ class FragmentFolder : Fragment() {
         if (!username.isNullOrEmpty()) {
             databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    folderList.clear()
                     for (postSnapshot in snapshot.children) {
                         val folder = postSnapshot.getValue(Folder::class.java)
                         folder?.let {
@@ -71,4 +72,8 @@ class FragmentFolder : Fragment() {
                 })
             }
         }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

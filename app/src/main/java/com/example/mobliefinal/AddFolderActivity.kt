@@ -70,7 +70,10 @@ class AddFolderActivity : AppCompatActivity() {
 
         val isPublic = switchPublic.isChecked // Lấy giá trị từ Switch
 
+        val folderId = databaseReference.push().key
+
         val topic = hashMapOf(
+            "folderId" to folderId,
             "name" to nameTopic,
             "description" to description,
             "user" to username,

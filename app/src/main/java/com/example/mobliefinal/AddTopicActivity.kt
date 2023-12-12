@@ -77,15 +77,17 @@ class AddTopicActivity : AppCompatActivity() {
         val timestamp = ServerValue.TIMESTAMP
 
         val isPublic = switchPublic.isChecked // Lấy giá trị từ Switch
+        val topicId = databaseReference.push().key
 
-        // Thêm trường "favorite" với giá trị mặc định là false
         val topic = hashMapOf(
+            "topicId" to topicId,
             "name" to nameTopic,
             "description" to description,
             "user" to username,
             "createdAt" to timestamp,
             "public" to isPublic,
-            "favorite" to false // Trường mới "favorite" với giá trị mặc định là false
+            "favorite" to false,
+            "folder" to ""
         )
 
         topicsRef.child(topicKey).setValue(topic)
