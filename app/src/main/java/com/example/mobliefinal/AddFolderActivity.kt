@@ -19,6 +19,12 @@ class AddFolderActivity : AppCompatActivity() {
     private lateinit var switchPublic: Switch
 
     private lateinit var sharedPreferences: SharedPreferences
+    companion object {
+        const val USER_PREFS = "userPrefs"
+        const val USERNAME_KEY = "username"
+        const val EMAIL_KEY = "email"
+        const val PROFILE_IMAGE_KEY = "profileImage"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,30 +64,28 @@ class AddFolderActivity : AppCompatActivity() {
     private fun saveTopicToRealtimeDatabase() {
         val username = sharedPreferences.getString(AddTopicActivity.USERNAME_KEY, null)
 
-        val nameTopic = etNameFolder.text.toString()
+        val nameFolder = etNameFolder.text.toString()
         val description = etDescription.text.toString()
 
         val databaseReference = FirebaseDatabase.getInstance().reference
         val topicsRef = databaseReference.child("folders")
 
-        val topicKey = topicsRef.push().key ?: ""
+        val folderId = topicsRef.push().key ?: ""
 
         val timestamp = ServerValue.TIMESTAMP
 
         val isPublic = switchPublic.isChecked // Lấy giá trị từ Switch
 
-        val folderId = databaseReference.push().key
-
-        val topic = hashMapOf(
+        val folder = hashMapOf(
             "folderId" to folderId,
-            "name" to nameTopic,
+            "name" to nameFolder,
             "description" to description,
             "user" to username,
             "createdAt" to timestamp,
             "public" to isPublic
         )
 
-        topicsRef.child(topicKey).setValue(topic)
+        topicsRef.child(folderId).setValue(folder)
             .addOnSuccessListener {
                 Toast.makeText(this, "Folder added successfully", Toast.LENGTH_SHORT).show()
                 finish()

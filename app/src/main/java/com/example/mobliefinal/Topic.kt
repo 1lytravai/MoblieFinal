@@ -1,12 +1,14 @@
 package com.example.mobliefinal
 
-data class Topic(
+class Topic(
     val topicId: String? = null,
+    val name: String = "",
+    val description: String = "",
+    val user: String = "",
     val createdAt: Long = 0,
-    val description: String? = null,
-    val name: String? = null,
     val public: Boolean = false,
-    val user: String? = null,
-    var favorite: Boolean = false
+    val favorite: Boolean = false,
+    val folder: String = "",
 )
+
 

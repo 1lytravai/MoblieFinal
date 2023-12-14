@@ -5,5 +5,6 @@ class Word (
     val createdAt: Long = 0,
     val meaning: String? = null,
     val word: String = "",
-    val public: Boolean = false
+    val topic: String = "",
+    val favorite: Boolean = false
 )

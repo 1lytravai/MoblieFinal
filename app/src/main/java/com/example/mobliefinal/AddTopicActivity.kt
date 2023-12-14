@@ -72,12 +72,11 @@ class AddTopicActivity : AppCompatActivity() {
         val databaseReference = FirebaseDatabase.getInstance().reference
         val topicsRef = databaseReference.child("topics")
 
-        val topicKey = topicsRef.push().key ?: ""
+        val topicId = topicsRef.push().key ?: ""
 
         val timestamp = ServerValue.TIMESTAMP
 
         val isPublic = switchPublic.isChecked // Lấy giá trị từ Switch
-        val topicId = databaseReference.push().key
 
         val topic = hashMapOf(
             "topicId" to topicId,
@@ -90,7 +89,7 @@ class AddTopicActivity : AppCompatActivity() {
             "folder" to ""
         )
 
-        topicsRef.child(topicKey).setValue(topic)
+        topicsRef.child(topicId).setValue(topic)
             .addOnSuccessListener {
                 Toast.makeText(this, "Topic added successfully", Toast.LENGTH_SHORT).show()
                 finish()

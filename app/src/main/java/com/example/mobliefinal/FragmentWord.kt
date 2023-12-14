@@ -1,69 +1,78 @@
 package com.example.mobliefinal
 
-import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Button
+import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobliefinal.databinding.ActivityMainTopicBinding
 import com.example.mobliefinal.databinding.FragmentTopicBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.mobliefinal.databinding.FragmentWordBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class FragmentTopic : Fragment() {
+class FragmentWord : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var topicList: ArrayList<Topic>
-    private lateinit var topicAdapter: TopicAdapter
+    private lateinit var wordList: ArrayList<Word>
+    private lateinit var wordAdapter: WordAdapter
+    private var _binding: FragmentWordBinding? = null
+    private lateinit var ivAdd: ImageView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
-    private var _binding: FragmentTopicBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTopicBinding.inflate(inflater, container, false)
+        _binding = FragmentWordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val topicId = arguments?.getString("topicId")
+        val topicName = arguments?.getString("topicName")
 
-        recyclerView = binding.recyclerViewTopic
+        ivAdd = binding.ivAdd
+        ivAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddWordActivity::class.java)
+            intent.putExtra("topicId", topicId)
+            intent.putExtra("topicName", topicName)
+            startActivity(intent)
+        }
+
+        recyclerView = binding.recyclerViewWord
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        databaseReference = FirebaseDatabase.getInstance().reference.child("topics")
+        databaseReference = FirebaseDatabase.getInstance().reference.child("words")
 
-        topicList = ArrayList()
-        topicAdapter = TopicAdapter(requireActivity(), topicList)
-        recyclerView.adapter = topicAdapter
+        wordList = ArrayList()
+        wordAdapter = WordAdapter(requireActivity(), wordList)
+        recyclerView.adapter = wordAdapter
 
-        sharedPreferences = requireActivity().getSharedPreferences(FragmentProfile.USER_PREFS, Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString(FragmentProfile.USERNAME_KEY, "")
-        Log.d("Username", username ?: "Username is empty or null")
-
-        if (!username.isNullOrEmpty()) {
+        if (!topicId.isNullOrEmpty()) {
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    topicList.clear()
+                    wordList.clear()
                     for (postSnapshot in snapshot.children) {
-                        val topic = postSnapshot.getValue(Topic::class.java)
-                        topic?.let {
-                            if (it.user == username) {
-                                topicList.add(it)
+                        val word = postSnapshot.getValue(Word::class.java)
+                        word?.let {
+                            if (it.topic == topicId) {
+                                wordList.add(it)
                             }
                         }
                     }
-
-                    topicAdapter.notifyDataSetChanged()
+                    wordAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -71,9 +80,7 @@ class FragmentTopic : Fragment() {
                 }
             })
         }
-}
-
-
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

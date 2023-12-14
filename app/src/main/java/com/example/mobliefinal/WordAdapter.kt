@@ -11,49 +11,49 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-class FolderAdapter(private val activity: Activity,
-                    private val folderList: List<Folder>) :
-    RecyclerView.Adapter<FolderAdapter.FolderViewHolder>() {
 
-    class FolderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewFolderName: TextView = itemView.findViewById(R.id.tvNameFolder)
-        val textViewFolderDescription: TextView = itemView.findViewById(R.id.tvDescription)
-        val textViewUser: TextView = itemView.findViewById(R.id.tvUsername)
-        val ivDelete: ImageView = itemView.findViewById(R.id.ivDelete)
+// TopicAdapter.kt
+class WordAdapter(private val activity: Activity,
+                  private val wordList: List<Word>,
+                   ) : RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
+
+    class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textViewWordName: TextView = itemView.findViewById(R.id.tvNameWord)
+        val textViewMeaning: TextView = itemView.findViewById(R.id.tvMeaning)
+        val ivStar: ImageView = itemView.findViewById(R.id.ivStar)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_folder, parent, false)
-        return FolderViewHolder(itemView)
+            .inflate(R.layout.item_word, parent, false)
+        return WordViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: FolderViewHolder, position: Int) {
-        val currentItem = folderList[position]
-        holder.textViewFolderName.text = currentItem.name
-        holder.textViewFolderDescription.text = currentItem.description
-        holder.textViewUser.text = currentItem.user
+    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+        val currentItem = wordList[position]
+        holder.textViewWordName.text = currentItem.word
+        holder.textViewMeaning.text = currentItem.meaning
 
-        holder.ivDelete.setOnClickListener {
+        holder.ivStar.setOnClickListener {
             showDeleteConfirmationDialog(activity) {
-                val folderId = currentItem.folderId ?: ""
-                Log.d("TopicAdapter", "Deleting topic with ID: $folderId")
-                deleteTopic(folderId)
+                val wordId = currentItem.wordId ?: ""
+                Log.d("TopicAdapter", "Deleting topic with ID: $wordId")
+                deleteTopic(wordId)
             }
-
         }
     }
 
     private fun showDeleteConfirmationDialog(context: Context, onConfirm: () -> Unit) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Delete Folder")
-        builder.setMessage("Are you sure you want to delete this folder?")
+        builder.setTitle("Delete Topic")
+        builder.setMessage("Are you sure you want to delete this topic?")
 
         builder.setPositiveButton("Yes") { _, _ ->
             onConfirm.invoke()
@@ -65,11 +65,11 @@ class FolderAdapter(private val activity: Activity,
         builder.show()
     }
 
-    private fun deleteTopic(folderId: String) {
-        Log.d("FolderAdapter", "Deleting folder with ID: $folderId")
+    private fun deleteTopic(wordId: String) {
+        Log.d("TopicAdapter", "Deleting topic with ID: $wordId")
 
         val databaseReference: DatabaseReference =
-            FirebaseDatabase.getInstance().getReference("folders").child(folderId)
+            FirebaseDatabase.getInstance().getReference("words").child(wordId)
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -92,7 +92,8 @@ class FolderAdapter(private val activity: Activity,
         databaseReference.addListenerForSingleValueEvent(valueEventListener)
     }
 
+
     override fun getItemCount(): Int {
-        return folderList.size
+        return wordList.size
     }
 }

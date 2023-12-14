@@ -43,13 +43,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
+            replaceFragment(FragmentHome())
+
 //            val toolbar: Toolbar = findViewById(R.id.toolbar)
 //            setSupportActionBar(toolbar)
 //            supportActionBar?.setDisplayShowTitleEnabled(false)
 
             binding.bottomNavigation.setOnItemSelectedListener {
                 when(it.itemId) {
-                    R.id.nav_home -> replaceFragment(FragmentMain())
+                    R.id.nav_home -> replaceFragment(FragmentHome())
                     R.id.nav_profile -> replaceFragment(FragmentProfile())
                     R.id.nav_add -> showCustomDialog()
                     R.id.nav_libary -> replaceFragment(FragmentLibrary())

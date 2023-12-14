@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
-            android:hint="Meaning"/>
+            android:inputType="textMultiLine|textNoSuggestions"            android:hint="Meaning"/>
 
     </LinearLayout>
 

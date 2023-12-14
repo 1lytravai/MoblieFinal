@@ -38,21 +38,23 @@ class FragmentFolder : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = binding.recyclerViewFolder // Sử dụng binding để truy cập các thành phần trong layout
+        recyclerView =
+            binding.recyclerViewFolder // Sử dụng binding để truy cập các thành phần trong layout
         val layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerView.layoutManager = layoutManager
         databaseReference = FirebaseDatabase.getInstance().reference.child("folders")
 
         folderList = ArrayList()
-        folderAdapter = FolderAdapter(folderList)
+        folderAdapter = FolderAdapter(requireActivity(), folderList)
         recyclerView.adapter = folderAdapter
 
-        sharedPreferences = requireActivity().getSharedPreferences(FragmentProfile.USER_PREFS, Context.MODE_PRIVATE)
+        sharedPreferences =
+            requireActivity().getSharedPreferences(FragmentProfile.USER_PREFS, Context.MODE_PRIVATE)
         val username = sharedPreferences.getString(FragmentProfile.USERNAME_KEY, "")
         Log.d("Username", username ?: "Username is empty or null")
 
         if (!username.isNullOrEmpty()) {
-            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            databaseReference.addValueEventListener (object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     folderList.clear()
                     for (postSnapshot in snapshot.children) {
@@ -67,11 +69,11 @@ class FragmentFolder : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                        // Handle error
-                    }
-                })
-            }
+                    // Xử lý lỗi
+                }
+            })
         }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
